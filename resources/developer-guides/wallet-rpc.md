@@ -37,9 +37,7 @@ curl \
     -H 'Content-Type: application/json'
 ```
 
-Note: "@atomic-units" refer to the smallest fraction of 1 XMR according to the salviumd implementation. **1 XMR = 1e12 @atomic-units.**
-
-This list has been updated on a frozen code on 2018-09-14 after merged commit bb30a7236725e456138f055f96a634c75ce2b491 (Wallet RPC version 1.3), and at block height 1643308.
+Note: "@atomic-units" refer to the smallest fraction of 1 SAL according to the salviumd implementation. **1 SAL = 1e8 @atomic-units.**
 
 ### Index of JSON RPC Methods:
 

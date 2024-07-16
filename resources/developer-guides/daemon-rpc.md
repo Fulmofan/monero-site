@@ -9,11 +9,11 @@ title: "Daemon RPC documentation"
 
 ## Introduction
 
-This is a list of the monerod daemon RPC calls, their inputs and outputs, and examples of each.
+This is a list of the salviumd daemon RPC calls, their inputs and outputs, and examples of each.
 
 Many RPC calls use the daemon's JSON RPC interface while others use their own interfaces, as demonstrated below.
 
-Note: "@atomic-units" refer to the smallest fraction of 1 XMR according to the monerod implementation. **1 XMR = 1e12 @atomic-units.**
+Note: "@atomic-units" refer to the smallest fraction of 1 SAL according to the salviumd implementation. **1 SAL = 1e8 @atomic-units.**
 
 ### [JSON RPC Methods](#json-rpc-methods):
 
@@ -92,7 +92,7 @@ Note: "@atomic-units" refer to the smallest fraction of 1 XMR according to the m
 
 ## JSON RPC Methods
 
-The majority of monerod RPC calls use the daemon's `json_rpc` interface to request various bits of information. These methods all follow a similar structure, for example:
+The majority of salviumd RPC calls use the daemon's `json_rpc` interface to request various bits of information. These methods all follow a similar structure, for example:
 
 ```
 IP=127.0.0.1
@@ -266,7 +266,7 @@ Outputs:
 * *status* - string; General RPC error code. "OK" means everything looks good.
 * *untrusted* - boolean; States if the result is obtained using the bootstrap mode, and is therefore not trusted (`true`), or when the daemon is fully synced and thus handles the RPC locally (`false`)
 
-The example below uses monerod with the start flags `--regtest --offline --fixed-difficulty 1`. `--offline` ensures that the node does not connect to the main network and learn of its latest chaintip and `--fixed-difficulty` keeps the difficulty constant, allowing a large number of blocks to be generated quickly.
+The example below uses salviumd with the start flags `--regtest --offline --fixed-difficulty 1`. `--offline` ensures that the node does not connect to the main network and learn of its latest chaintip and `--fixed-difficulty` keeps the difficulty constant, allowing a large number of blocks to be generated quickly.
 
 ```
 $ curl http://127.0.0.1:18081/json_rpc -d '{"jsonrpc":"2.0","id":"0","method":"generateblocks","params":{"amount_of_blocks":1,"wallet_address":"44AFFq5kSiGBoZ4NMDwYtN18obc8AemS33DBLWs3H7otXft3XjrpDtQGv7SqSsaBYBb98uNbr2VBBEt7f2wfn3RVGQBEP3A","starting_nonce": 0}' -H 'Content-Type: application/json'
@@ -301,20 +301,20 @@ Outputs:
   * *cumulative_difficulty* - unsigned int; Least-significant 64 bits of the cumulative difficulty of all blocks up to the block in the reply.
   * *cumulative_difficulty_top64* - unsigned int; Most-significant 64 bits of the 128-bit cumulative difficulty.
   * *depth* -  unsigned int; The number of blocks succeeding this block on the blockchain. A larger number means an older block.
-  * *difficulty* - unsigned int; The strength of the Monero network based on mining power.
+  * *difficulty* - unsigned int; The strength of the Salvium network based on mining power.
   * *difficulty_top64* - unsigned int; Most-significant 64 bits of the 128-bit network difficulty.
   * *hash* - string; The hash of this block.
   * *height* - unsigned int; The number of blocks preceding this block on the blockchain.
   * *long_term_weight* - unsigned int; The long term block weight, based on the median weight of the preceding 100000 blocks.
-  * *major_version* - unsigned int; The major version of the monero protocol at this block height.
+  * *major_version* - unsigned int; The major version of the salvium protocol at this block height.
   * *miner_tx_hash* - string; The hash of this block's coinbase transaction.
-  * *minor_version* - unsigned int; The minor version of the monero protocol at this block height.
-  * *nonce* - unsigned int; a cryptographic random one-time number used in mining a Monero block.
+  * *minor_version* - unsigned int; The minor version of the salvium protocol at this block height.
+  * *nonce* - unsigned int; a cryptographic random one-time number used in mining a Salvium block.
   * *num_txes* - unsigned int; Number of transactions in the block, not counting the coinbase tx.
   * *orphan_status* - boolean; Usually `false`. If `true`, this block is not part of the longest chain.
   * *pow_hash* - string; The hash, as a hexadecimal string, calculated from the block as proof-of-work.
   * *prev_hash* - string; The hash of the block immediately preceding this block in the chain.
-  * *reward* - unsigned int; The amount of new @atomic-units generated in this block and rewarded to the miner. Note: 1 XMR = 1e12 @atomic-units.
+  * *reward* - unsigned int; The amount of new @atomic-units generated in this block and rewarded to the miner. Note: 1 SAL = 1e12 @atomic-units.
   * *timestamp* - unsigned int; The unix time at which the block was recorded into the blockchain.
   * *wide_cumulative_difficulty* - Cumulative difficulty of all blocks in the blockchain as a hexadecimal string representing a 128-bit number.
   * *wide_difficulty* - string; Network difficulty (analogous to the strength of the network) as a hexadecimal string representing a 128-bit number.
@@ -833,8 +833,8 @@ Outputs:
 * *tx_count* - unsigned int; Total number of non-coinbase transaction in the chain.
 * *tx_pool_size* - unsigned int; Number of transactions that have been broadcast but not included in a block.
 * *untrusted* - boolean; States if the result is obtained using the bootstrap mode, and is therefore not trusted (`true`), or when the daemon is fully synced and thus handles the RPC locally (`false`)
-* *update_available* - boolean; States if a newer Monero software version is available.
-* *version* - string; The version of the Monero software the node is running.
+* *update_available* - boolean; States if a newer Salvium software version is available.
+* *version* - string; The version of the Salvium software the node is running.
 * *was_bootstrap_ever_used* - boolean; States if a bootstrap node has ever been used since the daemon started.
 * *white_peerlist_size* - unsigned int; White Peerlist Size
 * *wide_cumulative_difficulty* - Cumulative difficulty of all blocks in the blockchain as a hexadecimal string representing a 128-bit number.
@@ -1608,7 +1608,7 @@ Alias: *None*.
 
 Inputs:
 
-* *major_version* - unsigned int; The major version of the monero protocol at this block height.
+* *major_version* - unsigned int; The major version of the salvium protocol at this block height.
 * *height* - unsigned int;
 * *block_blob* - blobdata;
 * *seed_hash* - string;
@@ -1663,7 +1663,7 @@ $ curl http://127.0.0.1:18081/json_rpc -d '{"jsonrpc":"2.0","id":"0","method":"f
 
 ### **add_aux_pow**
 
-Easily enable merge mining with Monero without requiring software that manually alters the extra field in the coinbase tx to include the merkle root of the aux blocks.
+Easily enable merge mining with Salvium without requiring software that manually alters the extra field in the coinbase tx to include the merkle root of the aux blocks.
 
 Alias: *None*.
 
@@ -1726,7 +1726,7 @@ The data structure for these calls is different than the JSON RPC calls. Whereas
 
 Note: It is recommended to use JSON RPC where such alternatives exist, rather than the following methods. For example, the recommended way to get a node's height is via the JSON RPC methods [get_info](#getinfo) or [get_last_block_header](#get_last_block_header), rather than [getheight](#getheight) below.
 
-For calls that end with **.bin**, the data is exchanged in the form of binary, serialized objects, as defined in the [Core RPC Server](https://github.com/monero-project/monero/blob/master/src/rpc/core_rpc_server_commands_defs.h).
+For calls that end with **.bin**, the data is exchanged in the form of binary, serialized objects, as defined in the [Core RPC Server](https://github.com/salvium-project/salvium/blob/master/src/rpc/core_rpc_server_commands_defs.h).
 
 
 ### **/get_height**
@@ -2323,7 +2323,7 @@ Outputs:
   * *id* - string; Peer id
   * *ip* - unsigned int; IP address in integer format
   * *last_seen* - unsigned int; unix time at which the peer has been seen for the last time
-  * *port* - unsigned int; TCP port the peer is using to connect to monero network.
+  * *port* - unsigned int; TCP port the peer is using to connect to salvium network.
 * *status* - string; General RPC error code. "OK" means everything looks good. Any other value means that something went wrong.
 * *white_list* - array of online *peer* structure, as above.
 
@@ -2547,7 +2547,7 @@ Example:
 Once set, the address will appear in `get_info` as `bootstrap_daemon_address`
 
 ```
-$ curl http://127.0.0.1:18081/set_bootstrap_daemon -d '{"address": "http://getmonero.org:18081"}' -H 'Content-Type: application/json'
+$ curl http://127.0.0.1:18081/set_bootstrap_daemon -d '{"address": "http://getsalvium.org:18081"}' -H 'Content-Type: application/json'
 
 {
   "status": "OK"
